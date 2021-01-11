@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <span id="hours">00</span>:<span id="mins">00</span>:<span id="seconds">00</span>
+    <input type="radio" name="theme" id="theme1"> dark
+    <input type="radio" name="theme" id="theme2"> light
+    <p id="p1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ullam molestias porro inventore,
+        eveniet dolorum qui beatae obcaecati provident magnam ratione aspernatur similique aut maxime dicta sunt.
+        Numquam, corporis!</p>
+    <p id="p2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ullam molestias porro inventore,
+        eveniet dolorum qui beatae obcaecati provident magnam ratione aspernatur similique aut maxime dicta sunt.
+        Numquam, corporis!</p>
+    <p id="p3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda autem ullam molestias porro inventore,
+        eveniet dolorum qui beatae obcaecati provident magnam ratione aspernatur similique aut maxime dicta sunt.
+        Numquam, corporis!</p>
+    <button type="button" id="btnSelect"> Select</button>
+    <input type="text" name="selectedID" id="selectedID" placeholder="Enter selected p tag's ID"><br>
+    <span id="display">NOT AVAILABLE</span><br>
+    <button type="button" id="btnChange"> Change</button>
+    <input type="text" id="newContent" placeholder="New Content of P tag">
+    <script>
+        var selectedTag = null // toàn cục
+        //B1: gọi button
+        var btn1 = document.getElementById("btnSelect")
+        //B2: gán sự kiện
+        btn1.addEventListener("click", () => {
+            var inputID = document.getElementById("selectedID")
+            //lấy giá trị trong ô input
+            var selectedID = inputID.value
+            //ác định thẻ p cần
+            selectedTag = document.getElementById(selectedID);
+            //Khi không tìm được thẻ nào thỏa mãn -> getElementByID trả về null
+            if (selectedTag == null) {
+                var err = "Không tìm thấy thẻ thích hợp"
+                //thay đổi nội dung thẻ span
+                document.getElementById("display").innerHTML = err;
+            } else {
+                //thay đổi nội dung thẻ span
+                document.getElementById("display").innerHTML = selectedTag.innerHTML
+                btnChange.style.display = "inline"
+                newContent.style.display = "inline"
+
+            }
+        })
+
+        //PHần b
+        var btnChange = document.getElementById("btnChange")
+        var newContent = document.getElementById("newContent")
+        btnChange.style.display = "none"
+        newContent.style.display = "none"
+        btnChange.addEventListener("click", () => {
+            console.log(selectedTag, "Hello3");
+            console.log("Hello");
+            var content = newContent.value
+            console.log(content);
+            selectedTag.innerHTML = selectedTag.innerHTML + content
+            document.getElementById("display").innerHTML = selectedTag.innerHTML
+        })
+
+        //Phần C: Làm bộ đếm thời gian
+        var seconds = 0;
+        var mins = 0;
+        var hours = 0;
+        setInterval(() => {
+            //sau mỗi giây, biến seconds tăng 1 đơn vị
+            seconds++;
+            document.getElementById("seconds").innerHTML = formatTime(seconds)
+            //khi second ==60, biến mins tăng 1 đơn vị và biến second được reset = 0
+            if (seconds == 60) {
+                mins++;
+                seconds = 0;
+                document.getElementById("mins").innerHTML = formatTime(mins)
+            }
+            //khi mins ==60, biến hours tăng 1 đơn vị và biến mins được reset = 0
+            if (mins == 60) {
+                hours++;
+                mins = 0;
+                document.getElementById("hours").innerHTML = formatTime(hours)
+            }
+        }, 1000)
+        //Thêm số 0 vào trước 
+        function formatTime(time) {
+            if (time < 10)
+                return '0' + time
+            else return time
+        }
+        //phần D
+        var dark = document.getElementById("theme1")
+        var light = document.getElementById("theme2")
+        function changeTheme(backgroundColor, color) {
+            //gọi thẻ body 
+            var body = document.getElementsByTagName('body')[0]
+            body.style.color = color;
+            body.style.backgroundColor = backgroundColor
+        }
+        dark.onclick = function () { changeTheme("black", "red") }
+        light.onclick = function () { changeTheme("white", "black") }
+    </script>
+    
+</body>
+
+</html>
